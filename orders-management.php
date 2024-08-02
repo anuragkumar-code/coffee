@@ -1,6 +1,51 @@
 <?php include ('partials/header.php'); ?>
 <?php include ('partials/sidebar.php'); ?>
 
+<?php 
+
+if(isset($_POST['updateOrder'])){
+	$order_id = $_POST['orderIdInp'];
+	$title = $_POST['titleInp'];
+	$status = $_POST['statusInp'];
+	$description = $_POST['descriptionInp'];
+
+	$id = $_POST['id'];
+
+    $update_stmt = $conn->prepare("UPDATE `orders` SET `status` = ? WHERE `order_id` = ?");
+    
+    if ($update_stmt) {
+        $update_stmt->bind_param("ss", $status, $order_id);
+        
+        if ($update_stmt->execute()) {
+            $insert_stmt = $conn->prepare("INSERT INTO `order_status` (`order_id`, `title`, `message`, `status`, `file`) VALUES (?, ?, ?, ?, ?)");
+
+            if ($insert_stmt) {
+                $file = ""; 
+                $insert_stmt->bind_param("sssss", $order_id, $title, $description, $status, $file);
+
+                if ($insert_stmt->execute()) {
+                    // echo "Order status updated and new status inserted successfully.";
+                } else {
+                    echo "Error inserting into order_status: " . $insert_stmt->error;
+                }
+
+				$insert_stmt->close();
+            } else {
+                echo "Error preparing insert statement: " . $conn->error;
+            }
+        } else {
+            echo "Error updating orders table: " . $update_stmt->error;
+        }
+
+        $update_stmt->close();
+    } else {
+        echo "Error preparing update statement: " . $conn->error;
+    }
+
+    //$conn->close();
+} 
+
+?>
 
 <div class="main-content app-content">
 	<div class="main-container container-fluid">
@@ -66,7 +111,7 @@
 											<span class="badge bg-primary"><?php echo $row["status"]; ?></span>
 										</td>
 										<td class="text-center">
-											<a href="javascript:void(0)" class="btn btn-sm bg-info" title="Click here to update order status" data-bs-target="#modaldemo1" data-bs-toggle="modal"><i class="fa fa-edit" ></i></a>
+											<a href="javascript:void(0)" onclick="openEditPopUp(<?php echo $row['id']; ?>)" class="btn btn-sm bg-info" title="Click here to update order status"><i class="fa fa-edit" ></i></a>
 										</td>
 									</tr>
 								<?php } } ?>
@@ -90,57 +135,12 @@
 					<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 				</div>
 
-				<div class="modal-body" style="background-color: #f6f6f6;">
-					<div class="form-group">
-						<label class="main-content-label tx-11 tx-medium">Order ID</label> 
-						<input class="form-control" type="text" name="orderIdInp" id="orderInp" placeholder="Enter coffee name" readonly>
-					</div>
-										
-					<div class="form-group">
-						<div class="row row-sm">
-							<div class="col-sm-6">
-								<label class="main-content-label tx-11 tx-medium">Enter Title</label>
-								<div class="row row-sm">
-									<div class="col-sm-12">
-										<input class="form-control" type="text" name="titleInp" id="titleInp" placeholder="Enter title">
-										<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="titleError">Please enter title.</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<label class="main-content-label tx-11 tx-medium">Select Status</label>
-								<div class="row row-sm">
-									<div class="col-sm-12">
-										<select class="form-control select2-no-search" id="statusInp">
-											<option label="Select Status"></option>
-											<option value="Accepted">Accepted</option>
-											<option value="Preparing">Preparing</option>
-											<option value="Shipped">Shipped</option>
-											<option value="Delivered">Delivered</option>
-										</select>
-										<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="statusError">Please select status.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="main-content-label tx-11 tx-medium">Upload File</label> 
-						<input class="form-control" type="file" name="fileInp" id="fileInp">
-						<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="statusError">Please upload file.</p>
-					</div>
-
-					<div class="form-group">
-						<label class="main-content-label tx-11 tx-medium">Enter Message Description</label> 
-						<textarea class="form-control" id="descriptionInp" placeholder="Enter full description of coffee..."></textarea>
-						<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="descriptionError">Please enter coffee description.</p>
-					</div>
+				<div class="modal-body" id="popupBody" style="background-color: #f6f6f6;">
+					
 				</div>
 				
 				<div class="modal-footer bg-head">
-					<a class="btn btn-secondary" onclick="resetForm(event)">Reset </a>
-					<button type="submit" class="btn btn-primary" name="addCoffee"> + Add</a>
+					<button type="submit" class="btn btn-primary" name="updateOrder">Update</a>
 				</div>
 			</form>
 		</div>
@@ -148,6 +148,22 @@
 </div>
 
 <script type="text/javascript">
+	function openEditPopUp(id){
+		$.ajax({
+			type: 'POST',
+			url: 'functions/orders/load_order.php',
+			data: {
+				id:id,
+			},
+			success: function(response){
+				$('#popupBody').html(response);
+
+				$('#modaldemo1').modal('show');
+
+			}
+	  	});
+	}
+
 	function loadOrderDetails(orderid,row){
 		$.ajax({
 			type: 'POST',
