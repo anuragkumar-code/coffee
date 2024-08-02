@@ -61,27 +61,31 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php 
-										$fet_users['status'] = 1;
-										$fet_users['login_id'] = 3;
-
-									?>
+								<?php 
+								$query = "SELECT * FROM coffee";
+								$result = $conn->query($query);
+								$sno = '';
+								if ($result->num_rows > 0) {
+									while($row = $result->fetch_assoc()) {
+										$sno++;
+								?>
 									<tr>
-										<td class="text-center">1</td>
-										<td class="text-center">new coffee</td>
-										<td class="text-center">medium</td>
-										<td class="text-center">340</td>
-										<td class="text-center">roasted</td>
+										<td class="text-center"><?php echo $sno; ?></td>
+										<td class="text-center"><?php echo $row['coffee_name']; ?></td>
+										<td class="text-center"><?php echo $row['type']; ?></td>
+										<td class="text-center"><?php echo $row['price']; ?></td>
+										<td class="text-center"><?php echo $row['beans_type']; ?></td>
 										<td class="text-center">
-											<div class="main-toggle main-toggle-success <?php if($fet_users['status'] == 1){ ?> on <?php }?>" style="border-radius: 22px;" data-id="<?php echo $fet_users['login_id']; ?>">
+											<div class="main-toggle main-toggle-success <?php if($row['status'] == 'A'){ ?> on <?php }?>" style="border-radius: 22px;" data-id="<?php echo $row['id']; ?>">
 												<span style="border-radius: 22px;"></span>
-												<input type="hidden" id="statusId_<?php echo $fet_users['login_id']; ?>" value="<?php echo $fet_users['status']; ?>">
+												<input type="hidden" id="statusId_<?php echo $row['id']; ?>" value="<?php echo $row['status']; ?>">
 											</div>
 										</td>
 										<td class="text-center">
 											<a href="javascript:void(0)" class="btn btn-sm bg-info" title="Edit details" data-bs-target="#modaldemo2" data-bs-toggle="modal"><i class="fa fa-edit" ></i></a>
 										</td>
 									</tr>
+								<?php }} ?>
 								</tbody>
 							</table>
 						</div>

@@ -45,39 +45,31 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr id="tr_1">
-										<td class="text-center">1</td>
+								<?php 
+								$query = "SELECT orders.*, coffee.coffee_name AS coffee_name, users.name AS user_name FROM orders JOIN coffee ON orders.coffee_id = coffee.id JOIN users ON orders.user_id = users.id";
+								$result = $conn->query($query);
+								$sno = '';
+								if ($result->num_rows > 0) {
+									while($row = $result->fetch_assoc()) {
+										$sno++;
+								?>
+									<tr id="tr_<?php echo $sno; ?>">
+										<td class="text-center"><?php echo $sno; ?></td>
 										<td class="text-center">
-											<a class="badge bg-pill bg-primary-transparent" data-bs-target="#modaldemo1" data-bs-toggle="modal" title="Click here to check order status" href="javascript:void(0)">OD34820PLDT456</a>
+											<a class="badge bg-pill bg-primary-transparent" onclick="loadOrderDetails('<?php echo $row['order_id']; ?>','<?php echo $sno; ?>')" title="Click here to check order status" href="javascript:void(0)"><?php echo $row["order_id"]; ?></a>
 										</td>
-										<td class="text-center">New coffee</td>
-										<td class="text-center">Kunal</td>
-										<td class="text-center">10</td>
-										<td class="text-center">23.00</td>
+										<td class="text-center"><?php echo $row["coffee_name"]; ?></td>
+										<td class="text-center"><?php echo $row["user_name"]; ?></td>
+										<td class="text-center"><?php echo $row["quantity"]; ?></td>
+										<td class="text-center"><?php echo $row["price"]; ?></td>
 										<td class="text-center">
-											<span class="badge bg-primary">Preparing</span>
-										</td>
-										<td class="text-center">
-											<a href="javascript:void(0)" class="btn btn-sm bg-info" title="Click here to update order status" data-bs-target="#modaldemo1" data-bs-toggle="modal"><i class="fa fa-edit" ></i></a>
-										</td>
-									</tr>
-
-									<tr id="tr_2">
-										<td class="text-center">2</td>
-										<td class="text-center">
-											<a class="badge bg-pill bg-primary-transparent" title="Click here to check order status" onclick="loadOrderDetails()" href="javascript:void(0)">OD34820PLDT456</a>
-										</td>
-										<td class="text-center">New coffee</td>
-										<td class="text-center">Kunal</td>
-										<td class="text-center">10</td>
-										<td class="text-center">23.00</td>
-										<td class="text-center">
-											<span class="badge bg-primary">Preparing</span>
+											<span class="badge bg-primary"><?php echo $row["status"]; ?></span>
 										</td>
 										<td class="text-center">
 											<a href="javascript:void(0)" class="btn btn-sm bg-info" title="Click here to update order status" data-bs-target="#modaldemo1" data-bs-toggle="modal"><i class="fa fa-edit" ></i></a>
 										</td>
 									</tr>
+								<?php } } ?>
 								</tbody>
 							</table>
 						</div>
@@ -88,7 +80,7 @@
 	</div>
 </div>
 
-<!-- modal box to add coffee -->
+<!-- modal box to update order status -->
 <div class="modal" id="modaldemo1">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
@@ -156,15 +148,16 @@
 </div>
 
 <script type="text/javascript">
-	function loadOrderDetails(){
+	function loadOrderDetails(orderid,row){
 		$.ajax({
 			type: 'POST',
 			url: 'functions/orders/load_order_details.php',
 			data: {
-				orderid:"ABC"
+				orderid:orderid,
+				row:row
 			},
 			success: function(response){
-				$('#tr_2').after(response);
+				$('#tr_'+row).after(response);
 			}
 	  	});
 	}
