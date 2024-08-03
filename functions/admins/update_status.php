@@ -9,7 +9,7 @@ if ($status == 'A') {
     $newStatus = 'A';
 }
 
-$sql = "UPDATE coffee SET status = ? WHERE id = ?";
+$sql = "UPDATE admins SET status = ? WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("si", $newStatus, $id);
 

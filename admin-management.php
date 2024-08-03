@@ -54,9 +54,9 @@
 										<td class="text-center"><?php echo $row['name']; ?></td>
 										<td class="text-center"><?php echo $row['email']; ?></td>
 										<td class="text-center">
-											<div class="main-toggle main-toggle-success <?php if($fet_users['status'] == 'A'){ ?> on <?php }?>" style="border-radius: 22px;" data-id="<?php echo $fet_users['id']; ?>">
+											<div class="main-toggle main-toggle-success <?php if($row['status'] == 'A'){ ?> on <?php }?>" style="border-radius: 22px;" data-id="<?php echo $row['id']; ?>">
 												<span style="border-radius: 22px;"></span>
-												<input type="hidden" id="statusId_<?php echo $fet_users['id']; ?>" value="<?php echo $fet_users['status']; ?>">
+												<input type="hidden" id="statusId_<?php echo $row['id']; ?>" value="<?php echo $row['status']; ?>">
 											</div>
 										</td>
 										<td class="text-center">
@@ -139,7 +139,7 @@
 	</div>
 </div>
 
-<!-- modal box to add coffee -->
+<!-- modal box to edit admin -->
 <div class="modal" id="modaldemo2">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
@@ -162,6 +162,42 @@
 </div>
 
 <script type="text/javascript">
+
+	//function to toggle the switch
+	$('.main-toggle').on('click', function() {
+		$(this).toggleClass('on');
+
+		var id = $(this).data('id');
+
+	    var hiddenInput = $('#statusId_' + id);
+
+	    if ($(this).hasClass('on')) {
+	        hiddenInput.val('A'); 
+	        updateStatus('I',id)
+	    } else {
+	        hiddenInput.val('I'); 
+	        updateStatus('A',id)
+	    }
+	})
+
+	//function to update the admin status
+	function updateStatus(status,id){
+		$.ajax({
+			type: 'POST',
+			url: 'functions/admins/update_status.php',
+			data: {
+				status:status,
+				id:id
+			},
+			success: function(result){
+				if(result == '1'){
+					console.log("status updated");
+				}else{
+					alert('Something went wrong! Please contact admin.');
+				}
+			}
+	  	});
+	}
 
 	//to generate random password
   	function generateRandomPassword(inp) {
@@ -303,6 +339,7 @@
 	    form.reset();
   	}
 
+	//function to open edit popup
   	function openEditPopup(id){
   		$.ajax({
 			type: 'POST',

@@ -13,12 +13,7 @@ if ($id) {
     if ($result->num_rows > 0) {
         $admin = $result->fetch_assoc();
         $roles = explode(',', $admin['role']);
-    } else {
-        echo "Admin not found.";
     }
-} else {
-    echo "Invalid request.";
-    exit;
 }
 
 ?>
