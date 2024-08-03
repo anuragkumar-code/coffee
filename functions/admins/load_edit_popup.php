@@ -12,19 +12,14 @@ if ($id) {
     
     if ($result->num_rows > 0) {
         $admin = $result->fetch_assoc();
-        $roles = explode(',', $admin['roles']);
+        $roles = explode(',', $admin['role']);
     } else {
         echo "Admin not found.";
-        exit;
     }
 } else {
     echo "Invalid request.";
     exit;
 }
-
-
-
-
 
 ?>
 
@@ -36,16 +31,17 @@ if ($id) {
 
 <div class="form-group">
 	<label class="main-content-label tx-11 tx-medium">Enter Admin Email</label> 
-	<input class="form-control" type="text" id="editAdminEmailInp" name="editAdminEmailInp" value="<?php echo htmlspecialchars($admin['email']); ?>" placeholder="Enter admin email" onkeyup="chkAvailability(this.value)">
+	<input class="form-control" type="text" id="editAdminEmailInp" name="editAdminEmailInp" value="<?php echo htmlspecialchars($admin['email']); ?>" placeholder="Enter admin email" onkeyup="chkAvailability(this.value,'edit')">
+	<input type="hidden" id="hiddenEmail" value="<?php echo htmlspecialchars($admin['email']); ?>">
 	<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="editAdminEmailError">This field can not be empty.</p>
 </div>
 
 <div class="form-group">
 	<label class="main-content-label tx-11 tx-medium">Enter New Password</label> 
 	<div class="d-flex">
-		<input class="form-control" type="text" id="editAdminPasswordInp" name="editAdminPasswordInp" placeholder="Enter admin new password">
-		<a href="javascript:void(0)" onclick="generateRandomPassword()" title="Click here to generate password" class="btn btn-info"><i class="fas fa-key"></i></a>
-		<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="editAdminPasswordError">This field can not be empty.</p>
+		<input class="form-control" type="text" id="editAdminPasswordInp" name="editAdminPasswordInp" placeholder="Leave blank if password change is not required">
+		<input type="hidden" id="hiddenPassword" value="<?php echo htmlspecialchars($admin['password']); ?>">
+		<a href="javascript:void(0)" onclick="generateRandomPassword('editAdminPasswordInp')" title="Click here to generate password" class="btn btn-info"><i class="fas fa-key"></i></a>
 	</div>
 </div>
 										
@@ -70,3 +66,5 @@ if ($id) {
 	</div>
 	<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="editAdminRoleError">Please select atleast one role for admin.</p>
 </div>
+
+<input type="hidden" id="editId" value="<?php echo $id; ?>">

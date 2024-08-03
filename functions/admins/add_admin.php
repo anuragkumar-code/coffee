@@ -1,28 +1,24 @@
-<?php 
+<?php include('../../config/db.php'); 
 
-include('../../config/db.php'); 
+$name=isset($_POST['name'])?$_POST['name']:'';
+$email=isset($_POST['email'])?$_POST['email']:'';
+$password=isset($_POST['password'])?$_POST['password']:'';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = md5($_POST['password']); 
-    $roles = $_POST['roles'];
+$roles=isset($_POST['roles'])?$_POST['roles']:'';
 
-    $sql = "INSERT INTO admins (name, email, password, roles) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssss", $name, $email, $password, $roles);
+$encrypt = md5($password);
 
-    if ($stmt->execute()) {
-        echo '1';
-    } else {
-        echo '0';
-    }
+$sql = "INSERT INTO admins (name, email, password, role) VALUES (?, ?, ?, ?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ssss", $name, $email, $encrypt, $roles);
 
-    $stmt->close();
-    $conn->close();
+if ($stmt->execute()) {
+    echo '1';
+} else {
+    echo '0';
 }
 
-
-
+$stmt->close();
+$conn->close();
 
 ?>

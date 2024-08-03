@@ -165,6 +165,7 @@ if(isset($_POST['updateOrder'])){
 	}
 
 	function loadOrderDetails(orderid,row){
+		$('.subOrderTable').html('');
 		$.ajax({
 			type: 'POST',
 			url: 'functions/orders/load_order_details.php',

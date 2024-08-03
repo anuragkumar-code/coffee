@@ -1,6 +1,6 @@
 <?php include('../../config/db.php'); ?>
 
-<tr style="background-color: aliceblue;">
+<tr style="background-color: aliceblue;" class="subOrderTable">
 	<th class="text-center">S No.</th>
 	<th>Title</th>
 	<th colspan="3">Message</th>
@@ -21,7 +21,7 @@ if ($result->num_rows > 0) {
 		$sno++;
 
 ?>
-	<tr>
+	<tr class="subOrderTable">
 		<td class="text-center"><?php echo $fetch_row.".".$sno; ?></td>
 		<td class="text-center"><?php echo $row['title']; ?></td>
 		<td colspan="3"><?php echo $row['message']; ?></td>
