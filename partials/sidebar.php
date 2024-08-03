@@ -1,16 +1,12 @@
-<?php 
+<?php session_start();
 include ('functions/generic_function.php');
 
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: index.php");
+    exit();
+}
 
-// if (!isset($_SESSION['admin_id'])) {
-//     header("Location: index.php");
-//     exit();
-// }
-
-
-// $admin_roles = $_SESSION['admin_role'];
-
-
+$admin_roles = $_SESSION['admin_role'];
 
 ?>
 
@@ -59,41 +55,41 @@ include ('functions/generic_function.php');
 						<a class="side-menu__item" data-bs-toggle="slide" href="dashboard.php"><i class="side-menu__icon fas fa-chart-line"></i><span class="side-menu__label">Dashboard</span></a>
 					</li>
 
-					<?php //if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'coffeemanager')) { ?>
+					<?php if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'coffeemanagement')) { ?>
 						<li class="slide">
 							<a class="side-menu__item" data-bs-toggle="slide" href="coffee-management.php"><i class="side-menu__icon fas fa-coffee"></i><span class="side-menu__label">Coffee Management</span></a>
 						</li>
-					<?php //} ?>
+					<?php } ?>
 
-					<?php //if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'customermanager')) { ?>
+					<?php if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'customermanagement')) { ?>
 						<li class="slide">
 							<a class="side-menu__item" data-bs-toggle="slide" href="customer-management.php"><i class="side-menu__icon fas fa-user-cog"></i><span class="side-menu__label">Customer Management</span></a>
 						</li>
-					<?php //} ?>
+					<?php } ?>
 
-					<?php //if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'businessmanager')) { ?>
+					<?php if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'businessmanagement')) { ?>
 						<li class="slide">
 							<a class="side-menu__item" data-bs-toggle="slide" href="business-management.php"><i class="side-menu__icon fas fa-users-cog"></i><span class="side-menu__label">Business Management</span></a>
 						</li>
-					<?php //} ?>
+					<?php } ?>
 
-					<?php //if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'ordermanager')) { ?>
+					<?php if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'ordermanagement')) { ?>
 						<li class="slide">
 							<a class="side-menu__item" data-bs-toggle="slide" href="orders-management.php"><i class="side-menu__icon fas fa-shopping-bag"></i><span class="side-menu__label">Order Management</span></a>
 						</li>
-					<?php //} ?>
+					<?php } ?>
 
-					<?php //if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'offermanager')) { ?>
+					<?php if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'offermanagement')) { ?>
 						<li class="slide">
 							<a class="side-menu__item" data-bs-toggle="slide" href="offer-management.php"><i class="side-menu__icon fas fa-rocket"></i><span class="side-menu__label">Offer Management</span></a>
 						</li>
-					<?php //} ?>
+					<?php } ?>
 
-					<?php //if (hasRole($admin_roles, 'superadmin')) { ?>
+					<?php if (hasRole($admin_roles, 'superadmin')) { ?>
 						<li class="slide">
 							<a class="side-menu__item" data-bs-toggle="slide" href="admin-management.php"><i class="side-menu__icon fas fa-user-tie"></i><span class="side-menu__label">Admin Management</span></a>
 						</li>
-					<?php //} ?>
+					<?php } ?>
 				</ul>
 				<div class="slide-right" id="slide-right">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">

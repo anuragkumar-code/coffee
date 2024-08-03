@@ -313,7 +313,7 @@
 			},
 			success: function(result){
 				if(result == '1'){
-					resetForm(event);
+					resetForm(event,'addAdminForm');
 					location.reload();
 					$('#modaldemo1').modal('hide');
 				}else{

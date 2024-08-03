@@ -3,8 +3,7 @@
 //function to validate admin user
 function hasPageAccess($requiredRole) {
     if (isset($_SESSION['admin_role'])) {
-        $roles = explode(',', $_SESSION['admin_role']);
-        return in_array($requiredRole, $roles);
+        return in_array($requiredRole, $_SESSION['admin_role']);
     }
     return false;
 }

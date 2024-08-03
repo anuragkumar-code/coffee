@@ -1,12 +1,12 @@
 <?php 
 session_start();
-// include('config/db.php');
+include('config/db.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = md5($_POST['password']);
 
-    $query = "SELECT * FROM admins WHERE email = ? AND status = 1";
+    $query = "SELECT * FROM admins WHERE email = ? AND status = 'A'";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows == 1) {
         $admin = $result->fetch_assoc();
-        if (password_verify($password, $admin['password'])) {
+        if ($password === $admin['password']) {
             $_SESSION['admin_id'] = $admin['id'];
             $_SESSION['admin_name'] = $admin['name'];
             $_SESSION['admin_role'] = explode(',', $admin['role']);
@@ -29,16 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$error = "abc";
-
-
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-
 		<meta charset="UTF-8">
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
