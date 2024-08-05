@@ -61,7 +61,7 @@
 					<div class="card overflow-hidden">
 						<div class="card-header bg-head pd-b-0 pd-t-20 bd-b-0">
 							<div class="d-flex justify-content-between">
-								<h4 class="card-title mg-b-10">Orders</h4>
+								<h4 class="card-title mg-b-10">Latest Orders</h4>
 							</div>
 						</div>
 
@@ -140,40 +140,43 @@
 
 
 	function loadPieChart(){
-		var chart = c3.generate({
-        bindto: '#chart-pie', // id of chart wrapper
-        data: {
-            columns: [
-                // each columns data
-                ['data1', 63],
-                ['data2', 44],
-                ['data3', 12],
-                ['data4', 14]
-            ],
-            type: 'pie', // default type of chart
-            colors: {
-                data1: '#721c94',
-                data2: '#fb8d34',
-                data3: '#24CBE5',
-                data4: '#7a74be'
-            },
-            names: {
-                // name of each serie
-                'data1': 'A',
-                'data2': 'B',
-                'data3': 'C',
-                'data4': 'D'
-            }
-        },
-        axis: {},
-        legend: {
-            show: false, //hide legend
-        },
-        padding: {
-            bottom: 0,
-            top: 0
-        },
-    	});
+		$.ajax({
+			type: 'POST',
+			url: 'functions/dashboard/load_pie_chart.php',
+			data: {
+				status:"a",
+			},
+			success: function(result){
+				var data = JSON.parse(result);
+				var chart = c3.generate({
+        			bindto: '#chart-pie',
+        			data: {
+        				columns: data,
+	            		type: 'pie', 
+	            		colors: {
+	            		    data1: '#721c94',
+	            		    data2: '#fb8d34',
+	            		    data3: '#24CBE5',
+	            		    data4: '#7a74be'
+	            		},
+	            		names: {
+	            		    'data1': 'A',
+	            		    'data2': 'B',
+	            		    'data3': 'C',
+	            		    'data4': 'D'
+	            		}
+        			},
+        			axis: {},
+        			legend: {
+        			    show: false,
+        			},
+        			padding: {
+        			    bottom: 0,
+        			    top: 0
+        			},
+    			});
+			}
+	  	});
 	}
 
 	function labelFormatter(label, series) {
@@ -181,212 +184,152 @@
 	}
 
 	function loadCustomerFlotChart(){
-		// $.ajax({
-		// 	type: 'POST',
-		// 	url: 'functions/dashboard/load_customer_flot_graph.php',
-		// 	data: {
-		// 		status:"a",
-		// 	},
-		// 	success: function(result){
-		// 		$('#ordersTable').html(result);
-		// 	}
-	  	// });
+		$.ajax({
+			type: 'POST',
+			url: 'functions/dashboard/load_customer_flot_graph.php',
+			data: {
+				status:"a",
+			},
+			success: function(result){
+				var data = JSON.parse(result);
 
-	    var business = [
-	        [1, 1],
-	        [2, 2],
-	        [3, 5],
-	        [4, 3],
-	        [5, 5],
-	        [6, 6],
-	        [7, 9],
-	        [8, 9],
-	        [9, 9],
-	        [10, 9],
-	        [11, 9],
-	        [12, 9]
-	    ];
-
-	    var individual = [
-	        [1, 3],
-	        [2, 1],
-	        [3, 6],
-	        [4, 3],
-	        [5, 8],
-	        [6, 4],
-	        [7, 6],
-	        [8, 6],
-	        [9, 2],
-	        [10, 7],
-	        [11, 6],
-	        [12, 9]
-	    ];
-
-	    var plot = $.plot($('#flotArea1'), [{
-	        data: individual,
-	        label: 'Individual',
-	        color: '#00cccc'
-	    }, {
-	        data: business,
-	        label: 'Business',
-	        color: '#560bd0'
-	    }], {
-	        series: {
-	            lines: {
-	                show: true,
-	                lineWidth: 1,
-	                fill: true,
-	                fillColor: {
-	                    colors: [{
-	                        opacity: 0
-	                    }, {
-	                        opacity: 0.3
-	                    }]
-	                }
-	            },
-	            shadowSize: 0
-	        },
-	        points: {
-	            show: true,
-	        },
-	        legend: {
-	            noColumns: 1,
-	            position: 'nw'
-	        },
-	        grid: {
-	            borderWidth: 1,
-	            borderColor: 'rgba(171, 167, 167,0.2)',
-	            hoverable: true
-	        },
-	        yaxis: {
-	            min: 0,
-	            max: 15,
-	            color: '#eee',
-	            tickColor: 'rgba(171, 167, 167,0.2)',
-	            font: {
-	                size: 10,
-	                color: '#999'
-	            }
-	        },
-	        xaxis: {
-	            ticks: [
-	                [1, 'Jan'], [2, 'Feb'], [3, 'Mar'], [4, 'Apr'], 
-	                [5, 'May'], [6, 'Jun'], [7, 'Jul'], [8, 'Aug'], 
-	                [9, 'Sep'], [10, 'Oct'], [11, 'Nov'], [12, 'Dec']
-	            ],
-	            color: '#eee',
-	            tickColor: 'rgba(171, 167, 167,0.2)',
-	            font: {
-	                size: 10,
-	                color: '#999'
-	            }
-	        }
-	    });
+	    		var plot = $.plot($('#flotArea1'), [{
+	    		    data: data.individual,
+	    		    label: 'Individual',
+	    		    color: '#00cccc'
+	    		}, {
+	    		    data: data.business,
+	    		    label: 'Business',
+	    		    color: '#560bd0'
+	    		}], {
+	    		    series: {
+	    		        lines: {
+	    		            show: true,
+	    		            lineWidth: 1,
+	    		            fill: true,
+	    		            fillColor: {
+	    		                colors: [{
+	    		                    opacity: 0
+	    		                }, {
+	    		                    opacity: 0.3
+	    		                }]
+	    		            }
+	    		        },
+	    		        shadowSize: 0
+	    		    },
+	    		    points: {
+	    		        show: true,
+	    		    },
+	    		    legend: {
+	    		        noColumns: 1,
+	    		        position: 'nw'
+	    		    },
+	    		    grid: {
+	    		        borderWidth: 1,
+	    		        borderColor: 'rgba(171, 167, 167,0.2)',
+	    		        hoverable: true
+	    		    },
+	    		    yaxis: {
+	    		        min: 0,
+	    		        max: 15,
+	    		        color: '#eee',
+	    		        tickColor: 'rgba(171, 167, 167,0.2)',
+	    		        font: {
+	    		            size: 10,
+	    		            color: '#999'
+	    		        }
+	    		    },
+	    		    xaxis: {
+	    		        ticks: [
+	    		            [1, 'Jan'], [2, 'Feb'], [3, 'Mar'], [4, 'Apr'], 
+	    		            [5, 'May'], [6, 'Jun'], [7, 'Jul'], [8, 'Aug'], 
+	    		            [9, 'Sep'], [10, 'Oct'], [11, 'Nov'], [12, 'Dec']
+	    		        ],
+	    		        color: '#eee',
+	    		        tickColor: 'rgba(171, 167, 167,0.2)',
+	    		        font: {
+	    		            size: 10,
+	    		            color: '#999'
+	    		        }
+	    		    }
+	    		});
+			}
+	  	});
 	}
 
 
 	function loadCoffeeFlotChart(){
-		// $.ajax({
-		// 	type: 'POST',
-		// 	url: 'functions/dashboard/load_coffee_flot_graph.php',
-		// 	data: {
-		// 		status:"a",
-		// 	},
-		// 	success: function(result){
-		// 		$('#ordersTable').html(result);
-		// 	}
-		 // });
+		$.ajax({
+			type: 'POST',
+			url: 'functions/dashboard/load_coffee_flot_graph.php',
+			data: {
+				status:"a",
+			},
+			success: function(result){
+				var data = JSON.parse(result);
 
-		var mediumRoasted = [
-		    [1, 1],
-		    [2, 2],
-		    [3, 5],
-		    [4, 3],
-		    [5, 5],
-		    [6, 6],
-		    [7, 9],
-		    [8, 9],
-		    [9, 9],
-		    [10, 9],
-		    [11, 9],
-		    [12, 9]
-		];
-
-		var highlyRoasted = [
-		    [1, 3],
-		    [2, 1],
-		    [3, 6],
-		    [4, 3],
-		    [5, 8],
-		    [6, 4],
-		    [7, 6],
-		    [8, 6],
-		    [9, 2],
-		    [10, 7],
-		    [11, 6],
-		    [12, 9]
-		];
-
-	    var plot = $.plot($('#flotArea2'), [{
-	        data: highlyRoasted,
-	        label: 'Highly Roasted',
-	        color: '#00cccc'
-	    }, {
-	        data: mediumRoasted,
-	        label: 'Medium Roasted',
-	        color: '#560bd0'
-	    }], {
-	        series: {
-	            lines: {
-	                show: true,
-	                lineWidth: 1,
-	                fill: true,
-	                fillColor: {
-	                    colors: [{
-	                        opacity: 0
-	                    }, {
-	                        opacity: 0.3
-	                    }]
-	                }
-	            },
-	            shadowSize: 0
-	        },
-	        points: {
-	            show: true,
-	        },
-	        legend: {
-	            noColumns: 1,
-	            position: 'nw'
-	        },
-	        grid: {
-	            borderWidth: 1,
-	            borderColor: 'rgba(171, 167, 167,0.2)',
-	            hoverable: true
-	        },
-	        yaxis: {
-	            min: 0,
-	            max: 15,
-	            color: '#eee',
-	            tickColor: 'rgba(171, 167, 167,0.2)',
-	            font: {
-	                size: 10,
-	                color: '#999'
-	            }
-	        },
-	        xaxis: {
-	            ticks: [
-	                [1, 'Jan'], [2, 'Feb'], [3, 'Mar'], [4, 'Apr'], 
-	                [5, 'May'], [6, 'Jun'], [7, 'Jul'], [8, 'Aug'], 
-	                [9, 'Sep'], [10, 'Oct'], [11, 'Nov'], [12, 'Dec']
-	            ],
-	            color: '#eee',
-	            tickColor: 'rgba(171, 167, 167,0.2)',
-	            font: {
-	                size: 10,
-	                color: '#999'
-	            }
-	        }
-	    });
+				var plot = $.plot($('#flotArea2'), [{
+			        data: data.highlyRoasted,
+			        label: 'Highly Roasted',
+			        color: '#00cccc'
+			    }, {
+			        data: data.mediumRoasted,
+			        label: 'Medium Roasted',
+			        color: '#560bd0'
+			    }], {
+			        series: {
+			            lines: {
+			                show: true,
+			                lineWidth: 1,
+			                fill: true,
+			                fillColor: {
+			                    colors: [{
+			                        opacity: 0
+			                    }, {
+			                        opacity: 0.3
+			                    }]
+			                }
+			            },
+			            shadowSize: 0
+			        },
+			        points: {
+			            show: true,
+			        },
+			        legend: {
+			            noColumns: 1,
+			            position: 'nw'
+			        },
+			        grid: {
+			            borderWidth: 1,
+			            borderColor: 'rgba(171, 167, 167,0.2)',
+			            hoverable: true
+			        },
+			        yaxis: {
+			            min: 0,
+			            max: 15,
+			            color: '#eee',
+			            tickColor: 'rgba(171, 167, 167,0.2)',
+			            font: {
+			                size: 10,
+			                color: '#999'
+			            }
+			        },
+			        xaxis: {
+			            ticks: [
+			                [1, 'Jan'], [2, 'Feb'], [3, 'Mar'], [4, 'Apr'], 
+			                [5, 'May'], [6, 'Jun'], [7, 'Jul'], [8, 'Aug'], 
+			                [9, 'Sep'], [10, 'Oct'], [11, 'Nov'], [12, 'Dec']
+			            ],
+			            color: '#eee',
+			            tickColor: 'rgba(171, 167, 167,0.2)',
+			            font: {
+			                size: 10,
+			                color: '#999'
+			            }
+			        }
+			    });
+			}
+		});
 	}
 
 </script>

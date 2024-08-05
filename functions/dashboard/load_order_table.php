@@ -1,4 +1,4 @@
-
+<?php include('../../config/db.php'); ?>
 
 <table class="table border-top-0  table-bordered text-nowrap border-bottom" id="responsive-datatable">
 	<thead>
@@ -11,13 +11,22 @@
 		</tr>
 	</thead>
 	<tbody>
+
+<?php $sno = '';
+$query = "SELECT orders.order_id AS order_id, orders.quantity, coffee.coffee_name AS coffee_name, users.name AS user_name FROM orders JOIN coffee ON orders.coffee_id = coffee.id JOIN users ON orders.user_id = users.id";
+$result = $conn->query($query);
+	if ($result->num_rows > 0) {
+		while($row = $result->fetch_assoc()) {
+			$sno++;
+?>
 		<tr>
-			<td class="text-center">1</td>
-			<td class="text-center">OD34820PLDT456</td>
-			<td class="text-center">New coffee</td>
-			<td class="text-center">Kunal</td>
-			<td class="text-center">10</td>
+			<td class="text-center"><?php echo $sno; ?></td>
+			<td class="text-center"><?php echo $row['order_id'] ?></td>
+			<td class="text-center"><?php echo $row['coffee_name'] ?></td>
+			<td class="text-center"><?php echo $row['user_name'] ?></td>
+			<td class="text-center"><?php echo $row['quantity'] ?></td>
 		</tr>
+<?php }} ?>
 	</tbody>
 </table>
 
