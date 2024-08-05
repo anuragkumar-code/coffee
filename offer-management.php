@@ -1,31 +1,7 @@
 <?php include ('partials/header.php'); ?>
 <?php include ('partials/sidebar.php'); ?>
 
-<?php
-$edit_alert = '';
-if(isset($_POST['updateOffer'])){
-	$date = $_POST['dateInp'];
-	$discount = $_POST['discountInp'];
-	$from = $_POST['fromTimeInp'];
-	$to = $_POST['toTimeInp'];
-	$description = $_POST['offerDescription'];
 
-	$id = $_POST['editId'];
-
-	$sql = "UPDATE peak_hour SET from_time = ?, to_time = ?, date = ?, date = ?, discount = ?, description = ? WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssss", $from, $to, $date, $discount, $description, $id);
-
-    if ($stmt->execute()) {
-        $edit_alert = "1";
-    } else {
-        $edit_alert= "2";
-    }
-
-    $stmt->close();
-}
-
-?>
 <?php 
 $query = "SELECT * from peak_hour";
 $result = $conn->query($query);
@@ -60,23 +36,20 @@ $row = $result->fetch_assoc();
 							</div>
 						</div>
 					</div>
-					<?php if($edit_alert == '1'){ ?>
-					<div class="alert alert-success" role="alert">
+					<div class="alert alert-success d-none" id="successAlert" style="margin-top:10px" role="alert">
 						<span class="alert-inner--icon"><i class="fa fa-thumbs-up  d-inline-flex"></i></span>
 						<span class="alert-inner--text"><strong> Success!</strong> Peak hours has been updated.</span>
 						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<?php }else if($edit_alert == '2'){ ?>
-					<div class="alert alert-danger" role="alert">
+					<div class="alert alert-danger d-none" id="failAlert" style="margin-top:10px" role="alert">
 						<span class="alert-inner--icon"><i class="fa fa-exclamation-triangle d-inline-flex"></i></span>
 						<span class="alert-inner--text"><strong> Error!</strong> Something went wrong. Please try again or contact admin.</span>
 						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">×</span>
 						</button>
 					</div>
-					<?php } ?>
 					<div class="card-body">
 						<form action="post">
 							<div class="form-group">
@@ -173,9 +146,8 @@ $row = $result->fetch_assoc();
 							</div>
 
 							<div class="form-group" style="text-align: right;">
-								<input type="hidden" value="<?php echo $row['id']; ?>" name="editId">
+								<input type="hidden" value="<?php echo $row['id']; ?>" id="editId" name="editId">
 								<a href="javascript:void(0)" class="btn btn-primary" onclick="updateOffer()">Update</a>
-								<button type="submit" class="btn btn-primary d-none" name="updateOffer">Update</button>
 							</div>
 						</form>
 					</div>
@@ -189,11 +161,17 @@ $row = $result->fetch_assoc();
 <script type="text/javascript">
 
 function updateOffer(){
+
+	$('#successAlert').addClass('d-none');
+	$('#failAlert').addClass('d-none');
+
 	var date = $('#dateInp').val();
 	var discount = $('#discountInp').val();
 	var from = $('#fromTimeInp').val();
 	var to = $('#toTimeInp').val();
 	var description = $('#descriptionInp').val();
+
+	var id = $('#editId').val();
 
 	if(date == ''){
 		$('#dateInp').focus();
@@ -240,8 +218,25 @@ function updateOffer(){
 		$('#descriptionError').addClass('d-none');
 	}
 
-	//trigger submit button
-	$('#updateOffer').click();
+	$.ajax({
+		type: 'POST',
+		url: 'functions/offers/update_offer.php',
+		data: {
+			date:date,
+			discount:discount,
+			from:from,
+			to:to,
+			description:description,
+			id:id
+		},
+		success: function(result){
+			if(result == '1'){
+				$('#successAlert').removeClass('d-none');
+			}else{
+				$('#failAlert').removeClass('d-none');
+			}
+		}
+	});
 }
 
 </script>
