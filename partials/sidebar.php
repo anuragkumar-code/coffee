@@ -19,7 +19,7 @@ include ('functions/generic_function.php');
 	.logo-span {
 	  width: 75px; 
 	  height: 73px; 
-	  background-color: #1F497D; 
+	  background-color: #743131; 
 	  color: white; 
 	  font-size: 35px;
 	  text-align: center;
