@@ -76,17 +76,18 @@ if(isset($_POST['editBtn'])){
 
 }
 ?>
+
 <div class="main-content app-content">
 	<div class="main-container container-fluid">
 		<div class="breadcrumb-header justify-content-between">
 			<div>
-				<h4 class="content-title mb-2" style="text-transform: uppercase;">Coffee</h4>
+				<h4 class="content-title mb-2" style="text-transform: uppercase;">Coffee Beans</h4>
 			</div>
 			<div class="d-flex my-auto">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-						<li class="breadcrumb-item active " aria-current="page">Coffee Management </li>
+						<li class="breadcrumb-item active " aria-current="page">Coffee Beans Management </li>
 					</ol>
 				</nav>
 			</div>
@@ -96,9 +97,9 @@ if(isset($_POST['editBtn'])){
 				<div class="card overflow-hidden">
 					<div class="card-header pd-b-0 pd-t-20 bd-b-0 bg-head">
 						<div class="d-flex justify-content-between">
-							<h3 class="card-title mg-b-10">Coffee Table</h3>
+							<h3 class="card-title mg-b-10">Coffee Beans Table</h3>
 							<div class="dropdown" style="margin-bottom:10px">
-								<a href="javascript:void(0)" class="btn btn-sm bg-primary-gradient" title="Add new coffee" data-bs-target="#modaldemo1" data-bs-toggle="modal"><b> + Coffee</b></a>
+								<a href="javascript:void(0)" class="btn btn-sm bg-primary-gradient" title="Add new coffee" data-bs-target="#modaldemo1" data-bs-toggle="modal"><b> + Coffee Beans</b></a>
 							</div>
 						</div>
 					</div>
@@ -106,7 +107,7 @@ if(isset($_POST['editBtn'])){
 						<?php if($add_alert == '1'){ ?>
 						<div class="alert alert-success" role="alert">
 							<span class="alert-inner--icon"><i class="fa fa-thumbs-up  d-inline-flex"></i></span>
-							<span class="alert-inner--text"><strong> Success!</strong> New coffee has been added.</span>
+							<span class="alert-inner--text"><strong> Success!</strong> New coffee beans has been added.</span>
 							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -124,7 +125,7 @@ if(isset($_POST['editBtn'])){
 						<?php if($edit_alert == '1'){ ?>
 						<div class="alert alert-success" role="alert">
 							<span class="alert-inner--icon"><i class="fa fa-thumbs-up  d-inline-flex"></i></span>
-							<span class="alert-inner--text"><strong> Success!</strong> Coffee details has been edited.</span>
+							<span class="alert-inner--text"><strong> Success!</strong> Coffee beans details has been edited.</span>
 							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -143,17 +144,17 @@ if(isset($_POST['editBtn'])){
 								<thead>
 									<tr>
 										<th class="text-center wd-15p border-bottom-0">S. No.</th>
-										<th class="text-center wd-15p border-bottom-0">Coffee Name</th>
+										<th class="text-center wd-15p border-bottom-0">Coffee Beans Name</th>
 										<th class="text-center wd-20p border-bottom-0">Type</th>
 										<th class="text-center wd-15p border-bottom-0">Price</th>
-										<th class="text-center wd-10p border-bottom-0">Beans Type</th>
+										<th class="text-center wd-10p border-bottom-0">Roast Type</th>
 										<th class="text-center wd-25p border-bottom-0">Status</th>
 										<th class="text-center wd-25p border-bottom-0">Action</th>
 									</tr>
 								</thead>
 								<tbody>
 								<?php 
-								$query = "SELECT * FROM coffee order by id desc";
+								$query = "SELECT * FROM coffee where status != 'D' order by id desc";
 								$result = $conn->query($query);
 								$sno = '';
 								if ($result->num_rows > 0) {
@@ -164,7 +165,7 @@ if(isset($_POST['editBtn'])){
 										<td class="text-center"><?php echo $sno; ?></td>
 										<td class="text-center"><?php echo $row['coffee_name']; ?></td>
 										<td class="text-center"><?php echo $row['type']; ?></td>
-										<td class="text-center"><?php echo $row['price']; ?></td>
+										<td class="text-center">$ <?php echo $row['price']; ?></td>
 										<td class="text-center"><?php echo $row['beans_type']; ?></td>
 										<td class="text-center">
 											<div class="main-toggle main-toggle-success <?php if($row['status'] == 'A'){ ?> on <?php }?>" style="border-radius: 22px;" data-id="<?php echo $row['id']; ?>">
@@ -174,6 +175,7 @@ if(isset($_POST['editBtn'])){
 										</td>
 										<td class="text-center">
 											<a href="javascript:void(0)" class="btn btn-sm bg-info" title="Edit details" onclick="openEditPopup(<?php echo $row['id']; ?>)"><i class="fa fa-edit" ></i></a>
+											<a href="javascript:void(0)" class="btn btn-sm bg-danger" title="Edit details" onclick="deleteCoffee(<?php echo $row['id']; ?>)"><i class="fa fa-trash" ></i></a>
 										</td>
 									</tr>
 								<?php }} ?>
@@ -193,42 +195,42 @@ if(isset($_POST['editBtn'])){
 		<div class="modal-content modal-content-demo">
 			<form id="addCoffeeForm" method="post" enctype="multipart/form-data">
 				<div class="modal-header bg-head">
-					<h6 class="modal-title text-center">Add New Coffee</h6>
+					<h6 class="modal-title text-center">Add New Coffee Beans</h6>
 					<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 				</div>
 
 				<div class="modal-body" style="background-color: #f6f6f6;">
 					<div class="form-group">
-						<label class="main-content-label tx-11 tx-medium">Enter Coffee Name</label> 
-						<input class="form-control" type="text" id="coffeeNameInp" name="coffeeNameInp" placeholder="Enter coffee name">
+						<label class="main-content-label tx-11 tx-medium">Enter Coffee Beans Name</label> 
+						<input class="form-control" type="text" id="coffeeNameInp" name="coffeeNameInp" placeholder="Enter coffee beans name">
 						<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="coffeeNameError">This field can not be empty.</p>
 					</div>
 										
 					<div class="form-group">
 						<div class="row row-sm">
 							<div class="col-sm-6">
-								<label class="main-content-label tx-11 tx-medium">Select Type Of Coffee</label>
+								<label class="main-content-label tx-11 tx-medium">Select Coffee Beans</label>
 								<div class="row row-sm">
 									<div class="col-sm-12">
 										<select class="form-control select2-no-search" id="selectTypeOfCoffee" name="selectTypeOfCoffee">
-											<option label="Select Coffee"></option>
+											<option label="Select coffee beans"></option>
 											<option value="Single Origin">Single Origin</option>
 											<option value="Blend">Blend</option>
 										</select>
-										<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="typeOfCoffeeError">Please select type of coffee.</p>
+										<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="typeOfCoffeeError">Please select type of coffee beans.</p>
 									</div>
 								</div>
 							</div>
 							<div class="col-sm-6">
-								<label class="main-content-label tx-11 tx-medium">Select Type Of Beans</label>
+								<label class="main-content-label tx-11 tx-medium">Select Roast</label>
 								<div class="row row-sm">
 									<div class="col-sm-12">
 										<select class="form-control select2-no-search" id="selectTypeOfBeans" name="selectTypeOfBeans">
-											<option label="Select Beans"></option>
+											<option label="Select type of roast"></option>
 											<option value="Medium Roasted">Medium Roasted</option>
 											<option value="Highly Roasted">Highly Roasted</option>
 										</select>
-										<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="typeofBeansError">Please select type of beans.</p>
+										<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="typeofBeansError">Please select type of roast.</p>
 									</div>
 								</div>
 							</div>
@@ -241,7 +243,10 @@ if(isset($_POST['editBtn'])){
 								<label class="main-content-label tx-11 tx-medium">Enter Price</label>
 								<div class="row row-sm">
 									<div class="col-sm-12">
-										<input class="form-control" id="priceInp" name="priceInp" type="text" placeholder="Enter coffee price">
+										<div class="d-flex">
+											<a href="javascript:void(0)" class="btn btn-info"><i class="fas fa-dollar-sign"></i></a>
+											<input class="form-control" id="priceInp" name="priceInp" type="text" placeholder="Enter coffee price">
+										</div>
 										<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="priceError">Enter price</p>
 									</div>
 								</div>
@@ -286,7 +291,7 @@ if(isset($_POST['editBtn'])){
 		<div class="modal-content modal-content-demo">
 			<form id="editCoffeeForm" method="post" enctype="multipart/form-data">
 				<div class="modal-header bg-head">
-					<h6 class="modal-title text-center">Edit Coffee Details</h6>
+					<h6 class="modal-title text-center">Edit Coffee Beans Details</h6>
 					<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 				</div>
 
@@ -305,6 +310,26 @@ if(isset($_POST['editBtn'])){
 </div>
 
 <script type="text/javascript">
+
+	function deleteCoffee(id) {
+		if (confirm("Are you sure you want to delete this coffee beans?")) {
+			$.ajax({
+				type: 'POST',
+				url: 'functions/coffee/delete_coffee_beans.php',
+				data: {
+					id: id,
+				},
+				success: function(result) {
+					alert("Coffee beans deleted successfully.");
+					location.reload();
+				}
+			});
+		} else {
+			alert("Coffee beans not deleted.");
+		}
+	}
+
+
 	//function to edit the coffee
 	function editCoffee(){
 		var coffee = $('#coffeeNameEditInp').val();

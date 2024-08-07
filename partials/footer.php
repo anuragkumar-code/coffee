@@ -6,13 +6,24 @@
 	</div>
 		<a href="javascript:void(0)top" id="back-to-top"><i class="fas fa-angle-double-up"></i></a>
 
-		<script type="text/javascript">
+		<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    	<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap4.min.js"></script>
+    	<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+	<script type="text/javascript">
 			$('#responsive-datatable').DataTable({
+				
 		   		language: {
 		       		searchPlaceholder: 'Search...',
 		       		scrollX: "100%",
 		       		sSearch: '',
-		   		}
+					
+		   		},
+				   dom: 'Blfrtip', 
+            		buttons: [
+                		'excel' 
+            		],
 		  	});
 		</script>
 		<script src="assets/plugins/jquery-ui/ui/widgets/datepicker.js"></script>

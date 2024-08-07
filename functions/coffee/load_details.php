@@ -18,28 +18,28 @@ if ($id) {
 ?>
 
 <div class="form-group">
-	<label class="main-content-label tx-11 tx-medium">Enter Coffee Name</label> 
-	<input class="form-control" type="text" name="edit_coffee_name" id="coffeeNameEditInp" value="<?php echo htmlspecialchars($coffee['coffee_name']); ?>" placeholder="Enter coffee name">
+	<label class="main-content-label tx-11 tx-medium">Enter Coffee Beans Name</label> 
+	<input class="form-control" type="text" name="edit_coffee_name" id="coffeeNameEditInp" value="<?php echo htmlspecialchars($coffee['coffee_name']); ?>" placeholder="Enter coffee beans name">
 	<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="coffeeNameEditError">This field can not be empty.</p>
 </div>
 										
 <div class="form-group">
 	<div class="row row-sm">
 		<div class="col-sm-6">
-			<label class="main-content-label tx-11 tx-medium">Select Type Of Coffee</label>
+			<label class="main-content-label tx-11 tx-medium">Select Coffee Beans</label>
 			<div class="row row-sm">
 				<div class="col-sm-12">
 					<select class="form-control select2-no-search" name="edit_type_of_coffee" id="selectTypeOfCoffeeEdit">
-						<option label="Select Coffee"></option>
+						<option label="Select coffee beans"></option>
 						<option <?php if($coffee['type'] == 'Single Origin'){ echo "selected"; } ?> value="Single Origin">Single Origin</option>
 						<option <?php if($coffee['type'] == 'Blend'){ echo "selected"; } ?> value="Blend">Blend</option>
 					</select>
-					<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="typeOfCoffeeEditError">Please select type of coffee.</p>
+					<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="typeOfCoffeeEditError">Please select type of coffee beans.</p>
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-6">
-			<label class="main-content-label tx-11 tx-medium">Select Type Of Beans</label>
+			<label class="main-content-label tx-11 tx-medium">Select Roast</label>
 			<div class="row row-sm">
 				<div class="col-sm-12">
 					<select class="form-control select2-no-search" name="edit_type_of_beans" id="selectTypeOfBeansEdit">
@@ -47,7 +47,7 @@ if ($id) {
 						<option <?php if($coffee['beans_type'] == 'Medium Roasted'){ echo "selected"; } ?> value="Medium Roasted">Medium Roasted</option>
 						<option <?php if($coffee['beans_type'] == 'Highly Roasted'){ echo "selected"; } ?> value="Highly Roasted">Highly Roasted</option>
 					</select>
-					<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="typeofBeansEditError">Please select type of beans.</p>
+					<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="typeofBeansEditError">Please select type of roast.</p>
 				</div>
 			</div>
 		</div>
@@ -60,7 +60,10 @@ if ($id) {
 			<label class="main-content-label tx-11 tx-medium">Enter Price</label>
 			<div class="row row-sm">
 				<div class="col-sm-12">
-					<input class="form-control" name="editPrice" id="priceEditInp" type="text" value="<?php echo htmlspecialchars($coffee['price']); ?>" placeholder="Enter coffee price">
+					<div class="d-flex">
+						<a href="javascript:void(0)" class="btn btn-info"><i class="fas fa-dollar-sign"></i></a>
+						<input class="form-control" name="editPrice" id="priceEditInp" type="text" value="<?php echo htmlspecialchars($coffee['price']); ?>" placeholder="Enter coffee price">
+					</div>
 					<p class="tx-13 text-muted mb-2 text-danger mt-2 d-none" id="priceEditError">Enter price</p>
 				</div>
 			</div>

@@ -57,7 +57,7 @@ $admin_roles = $_SESSION['admin_role'];
 
 					<?php if (hasRole($admin_roles, 'superadmin') || hasRole($admin_roles, 'coffeemanagement')) { ?>
 						<li class="slide">
-							<a class="side-menu__item" data-bs-toggle="slide" href="coffee-management.php"><i class="side-menu__icon fas fa-coffee"></i><span class="side-menu__label">Coffee Management</span></a>
+							<a class="side-menu__item" data-bs-toggle="slide" href="coffee-beans-management.php"><i class="side-menu__icon fas fa-coffee"></i><span class="side-menu__label">Coffee Beans Management</span></a>
 						</li>
 					<?php } ?>
 
