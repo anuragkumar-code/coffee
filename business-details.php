@@ -61,10 +61,10 @@ $row = $result->fetch_assoc();
 									</div>
                                     <div class="media">
 										<div class="media-icon bg-primary-transparent text-primary">
-											<i class="fa fa-mobile"></i>
+											<i class="fa fa-certificate"></i>
 										</div>
 										<div class="media-body">
-											<span><b>EIN</b></span><a href="javascript:void(0)"><?php echo $row['ein']; ?></a>
+											<span><b>EIN</b></span><a href="<?php echo $row['sales_tax_certificate']; ?>"><?php echo $row['ein']; ?>   <i title="Click here to download sales tax certificate" class="fa fa-download"></i></a>
 										</div>
 									</div>
                                     <div class="media">
@@ -102,7 +102,6 @@ $row = $result->fetch_assoc();
 			        					<th class="text-center wd-15p border-bottom-0">Quantity</th>
 			        					<th class="text-center wd-10p border-bottom-0">Price</th>
 			        					<th class="text-center wd-25p border-bottom-0">Status</th>
-			        					<th class="text-center wd-25p border-bottom-0">Action</th>
 			        				</tr>
 			        			</thead>
 			        			<tbody>
@@ -117,16 +116,13 @@ $row = $result->fetch_assoc();
                                     <tr id="tr_<?php echo $sno; ?>">
                                         <td class="text-center"><?php echo $sno; ?></td>
                                         <td class="text-center">
-                                            <a class="badge bg-pill bg-primary-transparent" onclick="loadOrderDetails('<?php echo $row['order_id']; ?>','<?php echo $sno; ?>')" title="Click here to check order status" href="javascript:void(0)"><?php echo $row["order_id"]; ?></a>
+                                            <a class="badge bg-pill bg-primary-transparent" href="javascript:void(0)"><?php echo $row["order_id"]; ?></a>
                                         </td>
                                         <td class="text-center"><?php echo $row["coffee_name"]; ?></td>
                                         <td class="text-center"><?php echo $row["quantity"]; ?></td>
-                                        <td class="text-center"><?php echo $row["price"]; ?></td>
+                                        <td class="text-center">$ <?php echo $row["price"]; ?></td>
                                         <td class="text-center">
                                             <span class="badge bg-primary"><?php echo $row["status"]; ?></span>
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="javascript:void(0)" onclick="openEditPopUp(<?php echo $row['id']; ?>)" class="btn btn-sm bg-info" title="Click here to update order status"><i class="fa fa-edit" ></i></a>
                                         </td>
                                     </tr>
                                     <?php } } ?>

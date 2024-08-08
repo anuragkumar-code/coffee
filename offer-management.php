@@ -30,7 +30,7 @@ $row = $result->fetch_assoc();
 				<div class="card overflow-hidden">
 					<div class="card-header pd-b-0 pd-t-20 bd-b-0 bg-head">
 						<div class="d-flex justify-content-between">
-							<h3 class="card-title mg-b-10">Offer Table</h3>
+							<h3 class="card-title mg-b-10">Offer</h3>
 							<div class="dropdown" style="margin-bottom:10px">
 								<a href="javascript:void(0)" class="btn btn-sm bg-primary-gradient d-none" title="Add new peak hours" data-bs-target="#modaldemo1" data-bs-toggle="modal"><b> + Peak Hours</b></a>
 							</div>

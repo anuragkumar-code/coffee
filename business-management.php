@@ -79,6 +79,7 @@ if(isset($_POST['editBtn'])){
 										<th class="text-center wd-20p border-bottom-0">Email</th>
 										<th class="text-center wd-15p border-bottom-0">Phone</th>
 										<th class="text-center wd-15p border-bottom-0">EIN</th>
+										<th class="text-center wd-15p border-bottom-0">Certificate</th>
 										<th class="text-center wd-10p border-bottom-0">Status</th>
 										<th class="text-center wd-25p border-bottom-0">Action</th>
 									</tr>
@@ -95,11 +96,14 @@ if(isset($_POST['editBtn'])){
 									<tr>
 										<td class="text-center"><?php echo $sno; ?></td>
 										<td class="text-center">
-											<a href="business-details.php?user-id='<?php echo base64_encode($row['id']); ?>'"><?php echo $row['name']; ?>
+											<b><a title="Click here to view business details" href="business-details.php?user-id='<?php echo base64_encode($row['id']); ?>'"><?php echo $row['name']; ?></a></b>
 										</td>
 										<td class="text-center"><?php echo $row['email']; ?></td>
 										<td class="text-center"><?php echo $row['phone']; ?></td>
 										<td class="text-center"><?php echo $row['ein']; ?></td>
+										<td class="text-center">
+											<a href="<?php echo $row['sales_tax_certificate']; ?>"><i class="fa fa-download"></i></a>
+										</td>
 										<td class="text-center">
 											<div class="main-toggle main-toggle-success <?php if($row['status'] == 'A'){ ?> on <?php }?>" style="border-radius: 22px;" data-id="<?php echo $row['id']; ?>">
 												<span style="border-radius: 22px;"></span>

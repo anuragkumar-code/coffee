@@ -106,7 +106,7 @@ if(isset($_POST['updateOrder'])){
 										<td class="text-center"><?php echo $row["coffee_name"]; ?></td>
 										<td class="text-center"><?php echo $row["user_name"]; ?></td>
 										<td class="text-center"><?php echo $row["quantity"]; ?></td>
-										<td class="text-center"><?php echo $row["price"]; ?></td>
+										<td class="text-center">$ <?php echo $row["price"]; ?></td>
 										<td class="text-center">
 											<span class="badge bg-primary"><?php echo $row["status"]; ?></span>
 										</td>
