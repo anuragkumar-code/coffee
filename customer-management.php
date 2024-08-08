@@ -93,7 +93,9 @@ if(isset($_POST['editBtn'])){
 								?>
 									<tr>
 										<td class="text-center"><?php echo $sno; ?></td>
-										<td class="text-center"><?php echo $row['name'] ?></td>
+										<td class="text-center">
+											<a href="customer-details.php?user-id='<?php echo base64_encode($row['id']); ?>'"><?php echo $row['name'] ?></a>
+										</td>
 										<td class="text-center"><?php echo $row['email'] ?></td>
 										<td class="text-center"><?php echo $row['phone'] ?></td>
 										<td class="text-center">
